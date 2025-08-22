@@ -1,1 +1,9 @@
-
+Card(
+modifier = Modifier
+  .padding(8.dp)
+  .fillMaxWidth(),
+shape = MaterialTheme.shapes.medium,
+elevation = CardDefaults.cardElevations(defaultElevation = 0.dp),
+colors = CardDefaults.cardColors(
+  containerColor = typeColor
+))
