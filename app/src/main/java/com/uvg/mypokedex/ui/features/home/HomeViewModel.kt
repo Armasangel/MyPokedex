@@ -7,7 +7,7 @@ class HomeViewModel {
     fun getPokemonList(): List<Pokemon> {
         return listOf(
             Pokemon(
-                id = 1,
+                id = 0001,
                 name = "Bulbasaur",
                 height = 0.7,
                 weight = 6.9,
@@ -17,7 +17,7 @@ class HomeViewModel {
                 type = listOf(PokeType.GRASS),
                 weaknesses = "Fuego · Hielo · Volador · Psíquica"
             ), Pokemon(
-                id = 7,
+                id = 0007,
                 name = "Squirtle",
                 height = 0.5,
                 weight = 9,
@@ -27,7 +27,7 @@ class HomeViewModel {
                 type = listOf(PokeType.WATER),
                 weaknesses = "Eléctrico · Planta"
             ), Pokemon(
-                id = 4,
+                id = 0004,
                 name = "Charmander",
                 height = 0.61,
                 weight = 8,
@@ -37,7 +37,7 @@ class HomeViewModel {
                 type = listOf(PokeType.FIRE),
                 weaknesses = "Agua · Eléctrico · Roca"
             ), Pokemon(
-                id = 25,
+                id = 0025,
                 name = "Pikachu",
                 height = 0.4,
                 weight = 6.0,
