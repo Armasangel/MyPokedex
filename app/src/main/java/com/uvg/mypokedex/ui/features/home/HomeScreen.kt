@@ -26,4 +26,59 @@ fun HomeScreen(paddingValues: PaddingValues, viewModel: HomeViewModel = HomeView
     }
 
 }
+
+@Composable
+fun PokemonListScreen(
+    viewModel: PokemonListViewModel = hiltViewModel()
+) {
+    val pokemonList by viewModel.pokemonList.collectAsState()
+    var searchQuery by rememberSaveable { mutableStateOf("") }
+    
+    val filteredPokemon = remember(pokemonList, searchQuery) {
+        if (searchQuery.isBlank()) {
+            pokemonList
+        } else {
+            pokemonList.filter { 
+                it.name.contains(searchQuery, ignoreCase = true) 
+            }
+        }
+    }
+    
+    Scaffold(
+        topBar = {
+            SearchBar(
+                query = searchQuery,
+                onQueryChange = { searchQuery = it },
+                onSearch = {}
+            )
+        }
+    ) { innerPadding ->
+        LazyColumn(contentPadding = innerPadding) {
+            items(filteredPokemon) { pokemon ->
+                PokemonListItem(pokemon = pokemon)
+            }
+        }
+    }
+}
+
+@Composable
+fun SearchBar(
+    query: String,
+    onQueryChange: (String) -> Unit,
+    onSearch: () -> Unit
+) {
+    TextField(
+        value = query,
+        onValueChange = onQueryChange,
+        leadingIcon = {
+            Icon(Icons.Default.Search, contentDescription = "Buscar")
+        },
+        placeholder = {
+            Text("Busca al pokemon que desees :)")
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+    )
+}
 // Se agradece formalmente a Denil Parada por su paciencia y guía para dicho código
