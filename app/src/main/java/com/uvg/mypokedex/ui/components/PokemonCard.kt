@@ -65,10 +65,13 @@ fun getTypeColor(type: PokeType): Color {
 }
 
 @Composable
-fun PokemonCard(pokemon: Pokemon) {
+fun PokemonCard(
+    pokemon: Pokemon, onCardClick: (Pokemon) -> Unit = {}, 
+    modifier: Modifier = Modifier) {
     Card(
         modifier = Modifier
             .padding(8.dp)
+            .clickable { onCardClick(pokemon) },
             .fillMaxWidth(),
         shape = MaterialTheme.shapes.medium,
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
