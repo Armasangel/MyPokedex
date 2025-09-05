@@ -7,6 +7,7 @@ data class Pokemon(
     val weight: Float,
     val height: Float,
     val stats: List<PokemonStat>,
+    val isFavorite: Boolean = false,
     val imageUrl: String = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png"
 )
 
