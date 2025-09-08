@@ -9,7 +9,7 @@ import org.json.JSONObject
 import java.io.FileNotFoundException
 
 class HomeViewModel(private val context: Context) {
-    
+
     private val _pokemonList = mutableStateListOf<Pokemon>()
     val pokemonList: SnapshotStateList<Pokemon> = _pokemonList
     private var currentPage = 0
@@ -19,7 +19,6 @@ class HomeViewModel(private val context: Context) {
     }
     
     init {
-
         loadMorePokemon()
     }
     
@@ -32,15 +31,13 @@ class HomeViewModel(private val context: Context) {
             _pokemonList.addAll(newPokemon)
             currentPage++
         }
+       
     }
-    
-
     private fun generateFileName(page: Int): String {
         val startId = (page * 10) + 1
         val endId = startId + 9
         return "pokemon_${startId.toString().padStart(3, '0')}_${endId.toString().padStart(3, '0')}.json"
     }
-    
     private fun loadPokemonFromJson(context: Context, fileName: String): List<Pokemon> {
         try {
             val jsonString: String = context.assets.open(fileName)
@@ -48,6 +45,7 @@ class HomeViewModel(private val context: Context) {
                 .use { it.readText() }
             val jsonObject = JSONObject(jsonString)
             val itemsArrayString = jsonObject.getJSONArray("items").toString()
+   
             return json.decodeFromString<List<Pokemon>>(itemsArrayString)
         } catch (e: FileNotFoundException) {
             println("Archivo no encontrado: $fileName - Fin de los datos alcanzado")
