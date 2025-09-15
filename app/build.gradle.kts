@@ -51,7 +51,11 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     
+    // Kotlinx Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+    
+    // Navigation Compose
+    implementation("androidx.navigation:navigation-compose:2.7.6")
     
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
