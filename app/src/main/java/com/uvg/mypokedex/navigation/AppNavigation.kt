@@ -2,6 +2,7 @@ package com.uvg.mypokedex.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -9,7 +10,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
 import androidx.navigation.navArgument
 import com.uvg.mypokedex.ui.features.detail.DetailScreen
+import com.uvg.mypokedex.ui.features.detail.DetailViewModel
 import com.uvg.mypokedex.ui.features.home.HomeScreen
+import com.uvg.mypokedex.ui.features.home.HomeViewModel
 import com.uvg.mypokedex.ui.features.search.SearchToolsDialog
 
 @Composable
@@ -17,11 +20,12 @@ fun AppNavigation(
     navController: NavHostController,
     paddingValues: PaddingValues
 ) {
+    val homeViewModel: HomeViewModel = viewModel()
+
     NavHost(
         navController = navController,
         startDestination = AppScreens.HomeScreen.route
     ) {
-        // Pantalla principal - Home
         composable(route = AppScreens.HomeScreen.route) {
             HomeScreen(
                 paddingValues = paddingValues,
@@ -30,11 +34,11 @@ fun AppNavigation(
                 },
                 onSearchToolsClick = {
                     navController.navigate(AppScreens.SearchToolsDialog.route)
-                }
+                },
+                viewModel = homeViewModel
             )
         }
-        
-        // Pantalla de detalles del Pokémon
+
         composable(
             route = AppScreens.DetailScreen.route,
             arguments = listOf(
@@ -44,22 +48,25 @@ fun AppNavigation(
             )
         ) { backStackEntry ->
             val pokemonId = backStackEntry.arguments?.getInt("pokemonId") ?: 0
+            val detailViewModel: DetailViewModel = viewModel()
+
             DetailScreen(
                 pokemonId = pokemonId,
                 onBackClick = {
                     navController.popBackStack()
                 },
-                paddingValues = paddingValues
+                paddingValues = paddingValues,
+                viewModel = detailViewModel
             )
         }
-        
-        // Diálogo de herramientas de búsqueda
+
         dialog(route = AppScreens.SearchToolsDialog.route) {
             SearchToolsDialog(
                 onDismiss = {
                     navController.popBackStack()
                 },
-                paddingValues = paddingValues
+                paddingValues = paddingValues,
+                viewModel = homeViewModel
             )
         }
     }
