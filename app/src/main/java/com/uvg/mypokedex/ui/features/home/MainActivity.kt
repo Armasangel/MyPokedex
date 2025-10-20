@@ -1,4 +1,4 @@
-package com.uvg.mypokedex.ui.features.home
+package com.uvg.mypokedex
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             MyPokedexTheme {
                 val navController = rememberNavController()
-
+                
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     AppNavigation(
                         navController = navController,
