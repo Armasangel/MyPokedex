@@ -1,4 +1,6 @@
 package com.uvg.mypokedex.ui.detail
+
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.uvg.mypokedex.data.model.Pokemon
@@ -8,7 +10,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-
 
 class DetailViewModel(
     private val repository: PokemonRepository = PokemonRepository()
@@ -44,7 +45,6 @@ class DetailViewModel(
         loadPokemonDetail(pokemonId)
     }
 }
-
 
 sealed class DetailUiState {
     object Loading : DetailUiState()

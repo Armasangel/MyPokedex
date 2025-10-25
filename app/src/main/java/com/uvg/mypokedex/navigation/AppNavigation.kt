@@ -9,8 +9,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
 import androidx.navigation.navArgument
-import com.uvg.mypokedex.ui.features.detail.DetailScreen
-import com.uvg.mypokedex.ui.features.detail.DetailViewModel
+import com.uvg.mypokedex.ui.detail.DetailScreen
+import com.uvg.mypokedex.ui.detail.DetailViewModel
 import com.uvg.mypokedex.ui.features.home.HomeScreen
 import com.uvg.mypokedex.ui.features.home.HomeViewModel
 import com.uvg.mypokedex.ui.features.search.SearchToolsDialog
