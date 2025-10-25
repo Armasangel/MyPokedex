@@ -52,11 +52,20 @@ dependencies {
     implementation(libs.androidx.material3)
     
     // Kotlinx Serialization
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+    implementation(libs.kotlinx.serialization.json)
     
     // Navigation Compose
-    implementation("androidx.navigation:navigation-compose:2.7.6")
-    
+    implementation(libs.androidx.navigation.compose)
+
+    // Retrofit y OkHttp para networking
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    //noinspection UseTomlInstead
+    implementation("com.squareup.okhttp3:okhttp:5.2.1")
+    implementation(libs.logging.interceptor)
+    implementation(libs.animated.vector.drawable)
+    implementation(libs.androidx.vectordrawable.animated)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
