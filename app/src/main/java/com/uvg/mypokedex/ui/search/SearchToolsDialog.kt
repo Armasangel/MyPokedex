@@ -37,12 +37,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.uvg.mypokedex.ui.features.home.HomeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchToolsDialog(
     onDismiss: () -> Unit,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    viewModel: HomeViewModel
 ) {
     var selectedSortBy by remember { mutableStateOf("Número") }
     var isAscending by remember { mutableStateOf(true) }
