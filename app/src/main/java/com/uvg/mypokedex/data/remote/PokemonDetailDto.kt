@@ -2,7 +2,8 @@ package com.uvg.mypokedex.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 import com.uvg.mypokedex.data.model.Pokemon
-import com.uvg.mypokedex.data.model.PokemonSta
+import com.uvg.mypokedex.data.model.PokemonStat
+
 /**
  * DTO para la respuesta de detalle de Pokémon de la API
  */
@@ -62,13 +63,16 @@ data class OfficialArtwork(
     val frontDefault: String?
 )
 
+/**
+ * Función de extensión para mapear DTO a modelo de dominio
+ */
 fun PokemonDetailDto.toDomain(): Pokemon {
     return Pokemon(
         id = id,
         name = name,
         type = types.map { it.type.name },
-        weight = weight / 10f,
-        height = height / 10f,
+        weight = weight / 10f, // La API devuelve en hectogramos
+        height = height / 10f, // La API devuelve en decímetros
         stats = stats.map { statDto ->
             PokemonStat(
                 name = statDto.stat.name.replace("-", " ").replaceFirstChar { it.uppercase() },
@@ -76,7 +80,7 @@ fun PokemonDetailDto.toDomain(): Pokemon {
                 maxValue = 200
             )
         },
-        imageUrl = sprites.other?.officialArtwork?.frontDefault 
+        imageUrl = sprites.other?.officialArtwork?.frontDefault
             ?: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png"
     )
 }

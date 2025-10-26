@@ -1,4 +1,4 @@
-package com.uvg.mypokedex.ui.features.search
+package com.uvg.mypokedex.ui.search
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -47,17 +47,17 @@ fun SearchToolsDialog(
     var selectedSortBy by remember { mutableStateOf("Número") }
     var isAscending by remember { mutableStateOf(true) }
     var isDropdownExpanded by remember { mutableStateOf(false) }
-    
+
     val sortOptions = listOf("Número", "Nombre")
-    
+
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { 
+                title = {
                     Text(
                         text = "Herramientas de Búsqueda",
                         style = MaterialTheme.typography.headlineSmall
-                    ) 
+                    )
                 },
                 actions = {
                     IconButton(onClick = onDismiss) {
@@ -91,20 +91,20 @@ fun SearchToolsDialog(
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
-                    
+
                     Spacer(modifier = Modifier.height(16.dp))
                     HorizontalDivider()
                     Spacer(modifier = Modifier.height(16.dp))
-                    
+
                     // Selector dropdown
                     Text(
                         text = "Ordenar por:",
                         style = MaterialTheme.typography.bodyLarge,
                         fontWeight = FontWeight.Medium
                     )
-                    
+
                     Spacer(modifier = Modifier.height(8.dp))
-                    
+
                     OutlinedCard(
                         modifier = Modifier.fillMaxWidth(),
                         onClick = { isDropdownExpanded = true }
@@ -125,7 +125,7 @@ fun SearchToolsDialog(
                                 contentDescription = "Abrir selector"
                             )
                         }
-                        
+
                         DropdownMenu(
                             expanded = isDropdownExpanded,
                             onDismissRequest = { isDropdownExpanded = false }
@@ -143,7 +143,7 @@ fun SearchToolsDialog(
                     }
                 }
             }
-            
+
             // Card para la dirección de ordenamiento
             Card(
                 modifier = Modifier.fillMaxWidth(),
@@ -159,11 +159,11 @@ fun SearchToolsDialog(
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
-                    
+
                     Spacer(modifier = Modifier.height(16.dp))
                     HorizontalDivider()
                     Spacer(modifier = Modifier.height(16.dp))
-                    
+
                     // Radio buttons para ascendente/descendente
                     Row(
                         modifier = Modifier
@@ -185,7 +185,7 @@ fun SearchToolsDialog(
                             style = MaterialTheme.typography.bodyLarge
                         )
                     }
-                    
+
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -208,7 +208,7 @@ fun SearchToolsDialog(
                     }
                 }
             }
-            
+
             // Card con información adicional
             Card(
                 modifier = Modifier.fillMaxWidth(),
@@ -236,14 +236,14 @@ fun SearchToolsDialog(
                         text = "• Orden: ${if (isAscending) "Ascendente" else "Descendente"}",
                         style = MaterialTheme.typography.bodyMedium
                     )
-                    
+
                     Spacer(modifier = Modifier.height(16.dp))
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.End
                     ) {
                         TextButton(
-                            onClick = { 
+                            onClick = {
                                 onDismiss()
                             }
                         ) {

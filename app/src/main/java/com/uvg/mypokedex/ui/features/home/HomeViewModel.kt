@@ -13,25 +13,25 @@ class HomeViewModel(private val context: Context) {
     private val _pokemonList = mutableStateListOf<Pokemon>()
     val pokemonList: SnapshotStateList<Pokemon> = _pokemonList
     private var currentPage = 0
-    private val json = Json { 
+    private val json = Json {
         ignoreUnknownKeys = true
         coerceInputValues = true
     }
-    
+
     init {
         loadMorePokemon()
     }
-    
+
 
     fun loadMorePokemon() {
         val fileName = generateFileName(currentPage)
         val newPokemon = loadPokemonFromJson(context, fileName)
-        
+
         if (newPokemon.isNotEmpty()) {
             _pokemonList.addAll(newPokemon)
             currentPage++
         }
-       
+
     }
     private fun generateFileName(page: Int): String {
         val startId = (page * 10) + 1
@@ -45,7 +45,7 @@ class HomeViewModel(private val context: Context) {
                 .use { it.readText() }
             val jsonObject = JSONObject(jsonString)
             val itemsArrayString = jsonObject.getJSONArray("items").toString()
-   
+
             return json.decodeFromString<List<Pokemon>>(itemsArrayString)
         } catch (e: FileNotFoundException) {
             println("Archivo no encontrado: $fileName - Fin de los datos alcanzado")
