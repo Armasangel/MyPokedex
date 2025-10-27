@@ -1,8 +1,8 @@
 package com.uvg.mypokedex.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
-import com.uvg.mypokedex.data.model.Pokemon
-import com.uvg.mypokedex.data.model.PokemonSta
+import com.uvg.mypokedex.data.model.PokemonStats
+
 /**
  * DTO para la respuesta de detalle de Pokémon de la API
  */
@@ -70,7 +70,7 @@ fun PokemonDetailDto.toDomain(): Pokemon {
         weight = weight / 10f,
         height = height / 10f,
         stats = stats.map { statDto ->
-            PokemonStat(
+            PokemonStats(
                 name = statDto.stat.name.replace("-", " ").replaceFirstChar { it.uppercase() },
                 value = statDto.baseStat,
                 maxValue = 200
