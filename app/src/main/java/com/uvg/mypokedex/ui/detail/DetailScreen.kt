@@ -1,4 +1,4 @@
-package com.uvg.mypokedex.ui.features.detail
+package com.uvg.mypokedex.ui.detail
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
