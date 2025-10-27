@@ -341,8 +341,40 @@ fun SearchToolsDialog(
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text("Aplicar Ordenamiento")
+                    }                
+                }
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Search Pokémon") },
+        text = {
+            Column {
+                OutlinedTextField(
+                    value = searchQuery,
+                    onValueChange = { searchQuery = it },
+                    label = { Text("Pokémon name or ID") },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    if (searchQuery.isNotBlank()) {
+                        onSearch(searchQuery.trim())
                     }
                 }
+            ) {
+                Text("Search")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Cancel")
+            }
+        }
+    )
+}
             }
         }
     }
