@@ -1,6 +1,33 @@
 package com.uvg.mypokedex.data.model
 
 enum class PokeType {
-    BUG, DRAGON, FAIRY, FIRE, GHOST, GROUND, NORMAL, PSYCHIC, STEEL, DARK, ELECTRIC, FIGHTING, FLYING, GRASS, ICE, POISON, ROCK, WATER
+    NORMAL,
+    FIRE,
+    WATER,
+    ELECTRIC,
+    GRASS,
+    ICE,
+    FIGHTING,
+    POISON,
+    GROUND,
+    FLYING,
+    PSYCHIC,
+    BUG,
+    ROCK,
+    GHOST,
+    DRAGON,
+    DARK,
+    STEEL,
+    FAIRY,
+    UNKNOWN;
+
+    companion object {
+        fun fromString(type: String): PokeType {
+            return try {
+                valueOf(type.uppercase())
+            } catch (e: IllegalArgumentException) {
+                UNKNOWN
+            }
+        }
+    }
 }
-// Se agradece formalmente a Denil Parada por su paciencia y guía para dicho código
