@@ -5,4 +5,6 @@ sealed class AppScreens(val route: String) {
     object Detail : AppScreens("detail/{pokemonId}") {
         fun createRoute(pokemonId: Int) = "detail/$pokemonId"
     }
+    object Favorites : AppScreens("favorites")
+    object Exchange : AppScreens("exchange")
 }
