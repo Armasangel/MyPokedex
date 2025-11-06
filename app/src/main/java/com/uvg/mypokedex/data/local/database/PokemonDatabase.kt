@@ -12,7 +12,7 @@ import com.uvg.mypokedex.data.local.entity.CachedPokemon
  */
 @Database(
     entities = [CachedPokemon::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class PokemonDatabase : RoomDatabase() {
