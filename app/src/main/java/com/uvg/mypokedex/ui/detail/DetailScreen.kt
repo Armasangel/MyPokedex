@@ -8,6 +8,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -17,9 +19,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.uvg.mypokedex.data.model.Pokemon
 import com.uvg.mypokedex.data.model.TypeColors
+import com.uvg.mypokedex.ui.auth.AuthModal
+import com.uvg.mypokedex.ui.auth.AuthViewModel
+import com.uvg.mypokedex.ui.favorites.FavoritesViewModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,8 +39,23 @@ fun DetailScreen(
     val uiState by viewModel.uiState.collectAsState()
     val isConnected by viewModel.isConnected.collectAsState()
 
+    val authViewModel: AuthViewModel = viewModel()
+    val favoritesViewModel: FavoritesViewModel = viewModel()
+    
+    val currentUser by authViewModel.currentUser.collectAsState()
+    var showAuthModal by remember { mutableStateOf(false) }
+    var isFavorite by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+
     LaunchedEffect(pokemonId) {
         viewModel.loadPokemonDetail(pokemonId)
+    }
+
+    // Verificar si es favorito cuando el usuario cambia
+    LaunchedEffect(currentUser, pokemonId) {
+        if (currentUser != null) {
+            isFavorite = favoritesViewModel.isFavorite(pokemonId)
+        }
     }
 
     Scaffold(
@@ -48,10 +70,45 @@ fun DetailScreen(
                         )
                     }
                 },
+                actions = {
+                    if (uiState is DetailUiState.Success) {
+                        IconButton(
+                            onClick = {
+                                if (currentUser == null) {
+                                    showAuthModal = true
+                                } else {
+                                    scope.launch {
+                                        val pokemon = (uiState as DetailUiState.Success).pokemon
+                                        if (isFavorite) {
+                                            favoritesViewModel.removeFavorite(pokemon.id)
+                                            isFavorite = false
+                                        } else {
+                                            favoritesViewModel.addFavorite(pokemon)
+                                            isFavorite = true
+                                        }
+                                    }
+                                }
+                            }
+                        ) {
+                            Icon(
+                                imageVector = if (isFavorite) 
+                                    Icons.Default.Favorite 
+                                else 
+                                    Icons.Default.FavoriteBorder,
+                                contentDescription = if (isFavorite) 
+                                    "Remover de favoritos" 
+                                else 
+                                    "Agregar a favoritos",
+                                tint = if (isFavorite) Color.Red else Color.White
+                            )
+                        }
+                    }
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = Color.White,
-                    navigationIconContentColor = Color.White
+                    navigationIconContentColor = Color.White,
+                    actionIconContentColor = Color.White
                 )
             )
         }
@@ -111,6 +168,22 @@ fun DetailScreen(
                 }
             }
         }
+    }
+
+    if (showAuthModal) {
+        AuthModal(
+            onDismiss = { showAuthModal = false },
+            onAuthSuccess = {
+                showAuthModal = false
+                scope.launch {
+                    if (uiState is DetailUiState.Success) {
+                        val pokemon = (uiState as DetailUiState.Success).pokemon
+                        favoritesViewModel.addFavorite(pokemon)
+                        isFavorite = true
+                    }
+                }
+            }
+        )
     }
 }
 
