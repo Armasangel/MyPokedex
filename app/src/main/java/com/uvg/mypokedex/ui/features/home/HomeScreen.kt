@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Sort
 import androidx.compose.material3.*
@@ -14,6 +15,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.uvg.mypokedex.ui.auth.AuthModal
+import com.uvg.mypokedex.ui.auth.AuthViewModel
 import com.uvg.mypokedex.ui.components.PokemonCard
 import com.uvg.mypokedex.ui.features.search.SearchToolsDialog
 
@@ -22,6 +26,7 @@ import com.uvg.mypokedex.ui.features.search.SearchToolsDialog
 fun HomeScreen(
     viewModel: HomeViewModel,
     onPokemonClick: (Int) -> Unit,
+    onFavoritesClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -29,6 +34,10 @@ fun HomeScreen(
     val listState = rememberLazyListState()
     var showSearchDialog by remember { mutableStateOf(false) }
     var showSortDialog by remember { mutableStateOf(false) }
+    var showAuthModal by remember { mutableStateOf(false) }
+
+    val authViewModel: AuthViewModel = viewModel()
+    val currentUser by authViewModel.currentUser.collectAsState()
 
     LaunchedEffect(listState) {
         snapshotFlow {
@@ -51,6 +60,21 @@ fun HomeScreen(
             TopAppBar(
                 title = { Text("Pokédex") },
                 actions = {
+                    IconButton(
+                        onClick = {
+                            if (currentUser == null) {
+                                showAuthModal = true
+                            } else {
+                                onFavoritesClick()
+                            }
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Favorite,
+                            contentDescription = "Favoritos",
+                            tint = if (currentUser != null) Color.Red else Color.White
+                        )
+                    }
                     IconButton(onClick = { showSearchDialog = true }) {
                         Icon(
                             imageVector = Icons.Default.Search,
@@ -194,6 +218,16 @@ fun HomeScreen(
             onSort = { sortBy, ascending ->
                 viewModel.applySorting(sortBy, ascending)
                 showSortDialog = false
+            }
+        )
+    }
+
+    if (showAuthModal) {
+        AuthModal(
+            onDismiss = { showAuthModal = false },
+            onAuthSuccess = {
+                showAuthModal = false
+                onFavoritesClick()
             }
         )
     }
