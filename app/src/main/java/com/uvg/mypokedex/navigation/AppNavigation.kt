@@ -10,6 +10,8 @@ import androidx.navigation.navArgument
 import com.uvg.mypokedex.ui.detail.DetailScreen
 import com.uvg.mypokedex.ui.detail.DetailViewModel
 import com.uvg.mypokedex.ui.detail.DetailViewModelFactory
+import com.uvg.mypokedex.ui.exchange.ExchangeScreen
+import com.uvg.mypokedex.ui.favorites.FavoritesScreen
 import com.uvg.mypokedex.ui.features.home.HomeScreen
 import com.uvg.mypokedex.ui.features.home.HomeViewModel
 import com.uvg.mypokedex.ui.features.home.HomeViewModelFactory
@@ -22,6 +24,7 @@ fun AppNavigation() {
         navController = navController,
         startDestination = AppScreens.Home.route
     ) {
+        // Home Screen
         composable(route = AppScreens.Home.route) {
             val viewModel: HomeViewModel = viewModel(
                 factory = HomeViewModelFactory(
@@ -33,10 +36,14 @@ fun AppNavigation() {
                 viewModel = viewModel,
                 onPokemonClick = { pokemonId ->
                     navController.navigate(AppScreens.Detail.createRoute(pokemonId))
+                },
+                onFavoritesClick = {
+                    navController.navigate(AppScreens.Favorites.route)
                 }
             )
         }
 
+        // Detail Screen
         composable(
             route = AppScreens.Detail.route,
             arguments = listOf(
@@ -56,6 +63,27 @@ fun AppNavigation() {
             DetailScreen(
                 pokemonId = pokemonId,
                 viewModel = viewModel,
+                onBackClick = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        // Favorites Screen
+        composable(route = AppScreens.Favorites.route) {
+            FavoritesScreen(
+                onBackClick = {
+                    navController.popBackStack()
+                },
+                onExchangeClick = {
+                    navController.navigate(AppScreens.Exchange.route)
+                }
+            )
+        }
+
+        // Exchange Screen
+        composable(route = AppScreens.Exchange.route) {
+            ExchangeScreen(
                 onBackClick = {
                     navController.popBackStack()
                 }
