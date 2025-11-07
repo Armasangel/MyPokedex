@@ -1,13 +1,14 @@
 package com.uvg.mypokedex.data.local.entity
 
+
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.uvg.mypokedex.data.model.PokeType
 import com.uvg.mypokedex.data.model.Pokemon
-import com.uvg.mypokedex.data.model.PokemonStat
 
 @Entity(tableName = "cached_pokemon")
 @TypeConverters(Converters::class)
@@ -15,11 +16,16 @@ data class CachedPokemon(
     @PrimaryKey
     val id: Int,
     val name: String,
-    val type: List<String>,
-    val weight: Float,
-    val height: Float,
-    val stats: List<PokemonStat>,
     val imageUrl: String,
+    val types: List<String>,
+    val height: Int,
+    val weight: Int,
+    val hp: Int,
+    val attack: Int,
+    val defense: Int,
+    val specialAttack: Int,
+    val specialDefense: Int,
+    val speed: Int,
     val lastFetchedAt: Long = System.currentTimeMillis()
 )
 
@@ -36,28 +42,22 @@ class Converters {
         val type = object : TypeToken<List<String>>() {}.type
         return gson.fromJson(value, type)
     }
-
-    @TypeConverter
-    fun fromStatsList(value: List<PokemonStat>): String {
-        return gson.toJson(value)
-    }
-
-    @TypeConverter
-    fun toStatsList(value: String): List<PokemonStat> {
-        val type = object : TypeToken<List<PokemonStat>>() {}.type
-        return gson.fromJson(value, type)
-    }
 }
 
 fun CachedPokemon.toDomain(): Pokemon {
     return Pokemon(
         id = id,
         name = name,
-        type = type,
-        weight = weight,
+        imageUrl = imageUrl,
+        types = types.map { typeName -> PokeType.fromString(typeName) },
         height = height,
-        stats = stats,
-        imageUrl = imageUrl
+        weight = weight,
+        hp = hp,
+        attack = attack,
+        defense = defense,
+        specialAttack = specialAttack,
+        specialDefense = specialDefense,
+        speed = speed
     )
 }
 
@@ -65,11 +65,16 @@ fun Pokemon.toCache(): CachedPokemon {
     return CachedPokemon(
         id = id,
         name = name,
-        type = type,
-        weight = weight,
-        height = height,
-        stats = stats,
         imageUrl = imageUrl,
+        types = types.map { it.name },
+        height = height,
+        weight = weight,
+        hp = hp,
+        attack = attack,
+        defense = defense,
+        specialAttack = specialAttack,
+        specialDefense = specialDefense,
+        speed = speed,
         lastFetchedAt = System.currentTimeMillis()
     )
 }
