@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "183213291500",
+    "firebase_url": "https://mypokedex-b9ba3-default-rtdb.firebaseio.com",
+    "project_id": "mypokedex-b9ba3",
+    "storage_bucket": "mypokedex-b9ba3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:183213291500:android:0efb0827d7f2fe56fc72c9",
+        "android_client_info": {
+          "package_name": "com.uvg.mypokedex"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNhU9vrIWbdg_sL4PDeo7HjcVGgsn4P-8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
